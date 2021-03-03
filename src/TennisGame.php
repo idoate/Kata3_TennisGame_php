@@ -2,13 +2,15 @@
 
 namespace Deg540\PHPTestingBoilerplate;
 
+use phpDocumentor\Reflection\Types\Void_;
+
 /**
  * @property array player_name_score
  */
 class TennisGame
 {
 
-   private array $player_name_score;
+   public  $player_name_score;
 
 
     /**
@@ -19,8 +21,8 @@ class TennisGame
     public function __construct($player1Name,$player2Name)
     {
         $this->player_name_score = [
-                [1,$player1Name,0],
-                [2,$player2Name,0]
+                $player1Name => 0,
+                $player2Name =>0,
         ];
     }
     public function getScore(): string
@@ -31,6 +33,10 @@ class TennisGame
 
         }
     }
+    public function wonPoint($winnerPlayerName){
+        $this->player_name_score[$winnerPlayerName] =$this->player_name_score[$winnerPlayerName]+15;
+
+}
 }
 /*   $nombrj1;
    private String $nombrej2;
