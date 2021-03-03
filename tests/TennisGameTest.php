@@ -24,6 +24,22 @@ class TennisGameTest extends TestCase
         $game = new TennisGame("Juan","Pepe");
         $game->wonPoint("Juan");
         $this->assertEquals(15,$game->player_name_score["Juan"]);
+        
+    }
+
+    /**
+     * @test
+     **/
+    public function suma_posibles_valores_al_marcador()
+    {
+        $game = new TennisGame("Juan","Pepe");
+        $game->wonPoint("Juan");
+        $game->wonPoint("Juan");
+        $this->assertEquals(30,$game->player_name_score["Juan"]);
+        $game->wonPoint("Juan");
+        $this->assertEquals(40,$game->player_name_score["Juan"]);
+        $this->assertEquals("+40",$game->player_name_score["Juan"]);
+
 
 
     }
