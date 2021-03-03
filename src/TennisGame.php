@@ -2,7 +2,6 @@
 
 namespace Deg540\PHPTestingBoilerplate;
 
-use phpDocumentor\Reflection\Types\Void_;
 
 /**
  * @property array player_name_score
@@ -10,7 +9,7 @@ use phpDocumentor\Reflection\Types\Void_;
 class TennisGame
 {
 
-    public $player_name_score;
+    public array $player_name_score;
 
 
     /**
@@ -21,24 +20,34 @@ class TennisGame
     public function __construct($player1Name, $player2Name)
     {
         $this->player_name_score = [
-            $player1Name => 0,
-            $player2Name => 0,
+            $player1Name => "Love",
+            $player2Name => "Love",
         ];
     }
 
     public function getScore(): string
     {
-        if ($this->player_name_score[1][3] == 0 && $this->player_name_score[2][3] == 0) {
-            return "Love all";
+        $valuesArray = [];
+        foreach ($this->player_name_score as $i => $value)
+        {
+            array_push($valuesArray,$value);
 
         }
+        if ($valuesArray[0] == $valuesArray[1]){
+            return $valuesArray[1] ." all";
+        }
+
     }
 
     public function wonPoint($winnerPlayerName)
     {
         $value = $this->player_name_score[$winnerPlayerName];
-        if ($value == 0 || $value == 15) {
-            $value = $value + 15;
+        if ($value == "Love" ) {
+            $value = 15;
+        }
+        else if ($value == 15)
+        {
+            $value = 30;
         }
         else if ($value == 30)
         {
@@ -51,5 +60,7 @@ class TennisGame
 
         $this->player_name_score[$winnerPlayerName] =$value;
     }
+    
+
 
 }
