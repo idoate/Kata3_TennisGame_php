@@ -38,7 +38,8 @@ class TennisGameTest extends TestCase
         $this->assertEquals(30,$game->player_name_score["Juan"]);
         $game->wonPoint("Juan");
         $this->assertEquals(40,$game->player_name_score["Juan"]);
-        $this->assertEquals("+40",$game->player_name_score["Juan"]);
+        $game->wonPoint("Juan");
+        $this->assertEquals("40+",$game->player_name_score["Juan"]);
 
     }
 
@@ -50,9 +51,27 @@ class TennisGameTest extends TestCase
         $game = new TennisGame("Juan","Pepe");
         $game->wonPoint("Juan");
         $game->wonPoint("Pepe");
-        $this->assertEquals("15 all",$game->getScore());
+        $this->assertEquals("Fifteen all",$game->getScore());
 
+    }
 
+    /**
+     * @test
+     **/
+    public function getScore_devuelve_deuce_advantage()
+    {
+        $game = new TennisGame("Juan","Pepe");
+        $game->wonPoint("Juan");
+        $game->wonPoint("Pepe");
+        $game->wonPoint("Juan");
+        $game->wonPoint("Pepe");
+        $game->wonPoint("Juan");
+        $game->wonPoint("Pepe");
+        $this->assertEquals("Deuce",$game->getScore());
+        $game->wonPoint("Juan");
+        $this->assertEquals("Advantage Juan",$game->getScore());
+        $game->wonPoint("Juan");
+        $this->assertEquals("Win Juan",$game->getScore());
 
     }
 
