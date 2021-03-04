@@ -5,6 +5,8 @@ namespace Deg540\PHPTestingBoilerplate;
 
 /**
  * @property array player_name_score
+ * @property string player2Name
+ * @property string player1Name
  */
 class TennisGame
 {
@@ -16,7 +18,7 @@ class TennisGame
         "40+" =>"Advantage"
     ];
     public array $player_name_score;
-
+    private string $player1Name ,$player2Name;
 
     /**
      * TennisGame constructor.
@@ -29,17 +31,17 @@ class TennisGame
             $player1Name => 0,
             $player2Name => 0,
         ];
+        $this->player1Name = $player1Name;
+        $this->player2Name = $player2Name;
     }
 
     public function getScore(): string
     {
-        $valuesArray = [];
         foreach ($this->player_name_score as $playerName => $score)
         {
-            array_push($valuesArray,$score);
             if($score === "Winner")
             {
-                return ("Winner ".$playerName);
+                return ("Win ".$playerName);
             }
             elseif($score === "40+")
             {
@@ -47,37 +49,62 @@ class TennisGame
             }
 
         }
-        if ($valuesArray[0] === 40 && $valuesArray[1] === 40)
+        if ($this->player_name_score [$this->player1Name] === 40 && $this->player_name_score[$this->player2Name] === 40)
         {
             return "Deuce";
         }
 
-        elseif ($valuesArray[0] === $valuesArray[1]){
-            return self::INTEGER_NUMBER_TO_STRING[$valuesArray[1] ]." all";
+        elseif ($this->player_name_score [$this->player1Name] === $this->player_name_score [$this->player2Name] ){
+            return self::INTEGER_NUMBER_TO_STRING[$this->player_name_score[$this->player1Name]]." all";
         }
 
         else{
-            return self::INTEGER_NUMBER_TO_STRING[$valuesArray[0]]."-".self::INTEGER_NUMBER_TO_STRING[$valuesArray[1]];
+            return self::INTEGER_NUMBER_TO_STRING[$this->player_name_score[$this->player1Name]]."-".self::INTEGER_NUMBER_TO_STRING[$this->player_name_score[$this->player2Name]];
         }
 
     }
 
     public function wonPoint($winnerPlayerName)
     {
-        $value = $this->player_name_score[$winnerPlayerName];
-        if ($value == 0 || $value == 15) {
-            $value = $value + 15;
-        }
-        else if ($value == 30)
-        {
-            $value = 40;
-        }
-        else if ($value === 40)
-        {
-            $value = "40+";
-        }
+        if ($this->player_name_score[$winnerPlayerName] === "Looser" || $this->player_name_score[$winnerPlayerName] === "Winner") {
+            echo("The game has ended , " . $winnerPlayerName . " can't win more points");
 
-        $this->player_name_score[$winnerPlayerName] =$value;
+
+        } else {
+            if ($this->player1Name === $winnerPlayerName) {
+                $looserPlayerName = $this->player2Name;
+            } else {
+                $looserPlayerName = $this->player1Name;
+            }
+
+            $winnerValue = $this->player_name_score[$winnerPlayerName];
+            $looserValue = $this->player_name_score[$looserPlayerName];
+            if ($winnerValue === 0 || $winnerValue === 15) {
+                $winnerValue = $winnerValue + 15;
+            } elseif ($winnerValue === 30) {
+                $winnerValue = 40;
+            } elseif ($winnerValue === 40) {
+                if ($looserValue === 40) {
+                    $winnerValue = "40+";
+                } elseif ($looserValue === "40+") {
+                    $looserValue = 40;
+                } else {
+                    $winnerValue = "Winner";
+                    $looserValue = "Looser";
+                }
+
+            } else {
+                $winnerValue = "Winner";
+                $looserValue = "Looser";
+            }
+
+            $this->player_name_score[$winnerPlayerName] = $winnerValue;
+            $this->player_name_score[$looserPlayerName] = $looserValue;
+            if ($winnerValue === "Winner") {
+                echo ($this->getScore());
+            }
+
+        }
     }
 
 

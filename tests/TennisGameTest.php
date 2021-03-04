@@ -39,7 +39,7 @@ class TennisGameTest extends TestCase
         $game->wonPoint("Juan");
         $this->assertEquals(40,$game->player_name_score["Juan"]);
         $game->wonPoint("Juan");
-        $this->assertEquals("40+",$game->player_name_score["Juan"]);
+        $this->assertEquals("Winner",$game->player_name_score["Juan"]);
 
     }
 
@@ -62,16 +62,43 @@ class TennisGameTest extends TestCase
     {
         $game = new TennisGame("Juan","Pepe");
         $game->wonPoint("Juan");
-        $game->wonPoint("Pepe");
+        $game->wonPoint("Juan");
         $game->wonPoint("Juan");
         $game->wonPoint("Pepe");
-        $game->wonPoint("Juan");
+        $game->wonPoint("Pepe");
         $game->wonPoint("Pepe");
         $this->assertEquals("Deuce",$game->getScore());
         $game->wonPoint("Juan");
         $this->assertEquals("Advantage Juan",$game->getScore());
         $game->wonPoint("Juan");
         $this->assertEquals("Win Juan",$game->getScore());
+    }
+
+    /**
+     * @test
+     **/
+    public function devuelve_win_y_pasa_de_advantage_a_deuce()
+    {
+        $game = new TennisGame("Juan","Pepe");
+        $game->wonPoint("Juan");
+        $game->wonPoint("Juan");
+        $game->wonPoint("Juan");
+        $game->wonPoint("Pepe");
+        $game->wonPoint("Pepe");
+        $game->wonPoint("Pepe");
+        $game->wonPoint("Juan");
+        $game->wonPoint("Pepe");
+        $this->assertEquals("Deuce",$game->getScore());
+        $game->wonPoint("Juan");
+        $game->wonPoint("Juan");
+        $this->assertEquals("Win Juan",$game->getScore());
+        $game->wonPoint("Pepe");
+        $this->assertEquals("Win Juan",$game->getScore());
+
+
+
+
+
 
     }
 
