@@ -77,7 +77,7 @@ class TennisGameTest extends TestCase
     /**
      * @test
      **/
-    public function devuelve_win_y_pasa_de_advantage_a_deuce()
+    public function devuelve_win_y_funciona_todo_correctamente()
     {
         $game = new TennisGame("Juan","Pepe");
         $game->wonPoint("Juan");
@@ -94,12 +94,6 @@ class TennisGameTest extends TestCase
         $this->assertEquals("Win Juan",$game->getScore());
         $game->wonPoint("Pepe");
         $this->assertEquals("Win Juan",$game->getScore());
-
-
-
-
-
-
     }
 
 

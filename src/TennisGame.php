@@ -2,7 +2,6 @@
 
 namespace Deg540\PHPTestingBoilerplate;
 
-
 /**
  * @property array player_name_score
  * @property string player2Name
@@ -10,6 +9,8 @@ namespace Deg540\PHPTestingBoilerplate;
  */
 class TennisGame
 {
+    public array $player_name_score;
+    private string $player1Name ,$player2Name;
     const INTEGER_NUMBER_TO_STRING =[
         0 => "Love",
         15 => "Fifteen",
@@ -17,8 +18,6 @@ class TennisGame
         40 => "Fourty",
         "40+" =>"Advantage"
     ];
-    public array $player_name_score;
-    private string $player1Name ,$player2Name;
 
     /**
      * TennisGame constructor.
@@ -66,47 +65,55 @@ class TennisGame
 
     public function wonPoint($winnerPlayerName)
     {
-        if ($this->player_name_score[$winnerPlayerName] === "Looser" || $this->player_name_score[$winnerPlayerName] === "Winner") {
+        if ($this->player_name_score[$winnerPlayerName] === "Looser" || $this->player_name_score[$winnerPlayerName] === "Winner")
+        {
             echo("The game has ended , " . $winnerPlayerName . " can't win more points");
-
-
-        } else {
-            if ($this->player1Name === $winnerPlayerName) {
+        }
+        else {
+            if ($this->player1Name === $winnerPlayerName)
+            {
                 $looserPlayerName = $this->player2Name;
-            } else {
+            }
+            else {
                 $looserPlayerName = $this->player1Name;
             }
-
             $winnerValue = $this->player_name_score[$winnerPlayerName];
             $looserValue = $this->player_name_score[$looserPlayerName];
-            if ($winnerValue === 0 || $winnerValue === 15) {
+            if ($winnerValue === 0 || $winnerValue === 15)
+            {
                 $winnerValue = $winnerValue + 15;
-            } elseif ($winnerValue === 30) {
+            }
+            elseif ($winnerValue === 30)
+            {
                 $winnerValue = 40;
-            } elseif ($winnerValue === 40) {
-                if ($looserValue === 40) {
+            }
+            elseif ($winnerValue === 40)
+            {
+                if ($looserValue === 40)
+                {
                     $winnerValue = "40+";
-                } elseif ($looserValue === "40+") {
+                }
+                elseif ($looserValue === "40+")
+                {
                     $looserValue = 40;
-                } else {
+                }
+                else {
                     $winnerValue = "Winner";
                     $looserValue = "Looser";
                 }
-
-            } else {
+            }
+            else{
                 $winnerValue = "Winner";
                 $looserValue = "Looser";
             }
-
             $this->player_name_score[$winnerPlayerName] = $winnerValue;
             $this->player_name_score[$looserPlayerName] = $looserValue;
-            if ($winnerValue === "Winner") {
+            if ($winnerValue === "Winner")
+            {
                 echo ($this->getScore());
             }
 
         }
     }
-
-
 
 }
