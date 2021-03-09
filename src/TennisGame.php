@@ -3,117 +3,100 @@
 namespace Deg540\PHPTestingBoilerplate;
 
 /**
- * @property array player_name_score
+ * @property array $playerName_score
  * @property string player2Name
  * @property string player1Name
  */
 class TennisGame
 {
-    public array $player_name_score;
-    private string $player1Name ,$player2Name;
-    const INTEGER_NUMBER_TO_STRING =[
+    public array $playerName_score;
+    private string $player1Name, $player2Name;
+    const INTEGER_NUMBER_TO_STRING = [
         0 => "Love",
-        15 => "Fifteen",
-        30 => "Thirty",
-        40 => "Fourty",
-        "40+" =>"Advantage"
+        1 => "Fifteen",
+        2 => "Thirty",
+        3 => "Forty",
     ];
+    private function getPlayer1Score():int
+    {
+        return $this->playerName_score[$this->player1Name];
+    }
+    private function getPlayer2Score():int
+    {
+        return $this->playerName_score[$this->player2Name];
+    }
+
+    private function areEquals():bool
+    {
+        return $this->getPlayer1Score() === $this->getPlayer2Score();
+    }
+    private function moreThanFortyPoints():bool
+    {
+        return $this->getPlayer1Score() >3 || $this->getPlayer2Score()> 3 ;
+    }
+    private function winner():bool
+    {
+       return $this->moreThanFortyPoints() &&  abs($this->getPlayer1Score()-$this->getPlayer2Score() ) >=2 ;
+    }
+    private function advantager():bool{
+        return $this->moreThanFortyPoints() &&  abs($this->getPlayer1Score()-$this->getPlayer2Score() ) ===1 ;
+
+    }
+
 
     /**
      * TennisGame constructor.
      * @param $player1Name
      * @param $player2Name
      */
+
     public function __construct($player1Name, $player2Name)
     {
-        $this->player_name_score = [
+        $this->playerName_score = [
             $player1Name => 0,
-            $player2Name => 0,
+            $player2Name => 0
         ];
         $this->player1Name = $player1Name;
         $this->player2Name = $player2Name;
     }
 
+
     public function getScore(): string
     {
-        foreach ($this->player_name_score as $playerName => $score)
-        {
-            if($score === "Winner")
-            {
-                return ("Win ".$playerName);
+        if ($this->winner()) {
+            if ($this->getPlayer1Score() > $this->getPlayer2Score()) {
+                return "Win " . $this->player1Name;
             }
-            elseif($score === "40+")
-            {
-                return(self::INTEGER_NUMBER_TO_STRING[$score]." ".$playerName);
+            return "Win " . $this->player2Name;
+        }
+
+        elseif ($this->advantager()){
+            if ($this->getPlayer1Score() > $this->getPlayer2Score()) {
+                return "Advantage " . $this->player1Name;
             }
-
-        }
-        if ($this->player_name_score [$this->player1Name] === 40 && $this->player_name_score[$this->player2Name] === 40)
-        {
-            return "Deuce";
+            return "Advantage " . $this->player2Name;
         }
 
-        elseif ($this->player_name_score [$this->player1Name] === $this->player_name_score [$this->player2Name] ){
-            return self::INTEGER_NUMBER_TO_STRING[$this->player_name_score[$this->player1Name]]." all";
+        elseif ($this->areEquals()) {
+            if ($this->getPlayer1Score()>2)
+            {
+                return "Deuce";
+            }
+            return self::INTEGER_NUMBER_TO_STRING[$this->getPlayer1Score()] . " all";
         }
 
-        else{
-            return self::INTEGER_NUMBER_TO_STRING[$this->player_name_score[$this->player1Name]]."-".self::INTEGER_NUMBER_TO_STRING[$this->player_name_score[$this->player2Name]];
-        }
-
+        return self::INTEGER_NUMBER_TO_STRING[$this->getPlayer1Score()] . "-" . self::INTEGER_NUMBER_TO_STRING[$this->getPlayer2Score()];
     }
+
+
 
     public function wonPoint($winnerPlayerName)
     {
-        if ($this->player_name_score[$winnerPlayerName] === "Looser" || $this->player_name_score[$winnerPlayerName] === "Winner")
-        {
-            echo("The game has ended , " . $winnerPlayerName . " can't win more points");
-        }
-        else {
-            if ($this->player1Name === $winnerPlayerName)
-            {
-                $looserPlayerName = $this->player2Name;
-            }
-            else {
-                $looserPlayerName = $this->player1Name;
-            }
-            $winnerValue = $this->player_name_score[$winnerPlayerName];
-            $looserValue = $this->player_name_score[$looserPlayerName];
-            if ($winnerValue === 0 || $winnerValue === 15)
-            {
-                $winnerValue = $winnerValue + 15;
-            }
-            elseif ($winnerValue === 30)
-            {
-                $winnerValue = 40;
-            }
-            elseif ($winnerValue === 40)
-            {
-                if ($looserValue === 40)
-                {
-                    $winnerValue = "40+";
-                }
-                elseif ($looserValue === "40+")
-                {
-                    $looserValue = 40;
-                }
-                else {
-                    $winnerValue = "Winner";
-                    $looserValue = "Looser";
-                }
-            }
-            else{
-                $winnerValue = "Winner";
-                $looserValue = "Looser";
-            }
-            $this->player_name_score[$winnerPlayerName] = $winnerValue;
-            $this->player_name_score[$looserPlayerName] = $looserValue;
-            if ($winnerValue === "Winner")
-            {
-                echo ($this->getScore());
-            }
+        $this->playerName_score[$winnerPlayerName] = $this->playerName_score[$winnerPlayerName]+1;
 
-        }
     }
 
+
+
 }
+
