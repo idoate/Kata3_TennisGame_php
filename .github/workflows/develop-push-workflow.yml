@@ -1,11 +1,14 @@
-name: learn-github-actions
+name: develop-push-workflow
 on:
   push:
     branches:
-      - develop
+        - develop
 jobs:
-  check_ls:
+  validate:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout develop
       - uses: actions/checkout@v2
+
+      - name: Check files
       - run: ls -al
