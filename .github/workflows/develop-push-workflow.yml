@@ -16,4 +16,6 @@ jobs:
           tools: composer:v2
           php-version: '7.4'
 
-      - name:
+      - name: Run unit test
+        run: ./vendor/bin/phpunit -c phpunit.xml
+        
